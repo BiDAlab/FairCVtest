@@ -1,6 +1,8 @@
 ![Sin titulo](http://atvs.ii.uam.es/atvs/github/new_edBB_logo.png)
 ***
 # About
+We present a new experimental framework aimed  to  study  how  multimodal  machine  learning  isinfluenced  by  biases  present  in  the  training  datasets.
+
 We present a platform for student monitoring in remote education consisting of a collection of sensors and software that capture biometric and behavioral data. We define a collection of tasks to acquire behavioral data that can be useful for facing the existing challenges in automatic student monitoring during remote evaluation. Additionally, we release an initial database including data from 20 different users completing these tasks with a set of **basic sensors:** webcam, microphone, mouse, and keyboard; and also from more **advanced sensors:** NIR camera, smartwatch, additional RGB cameras, and an EEG band. Information from the computer (e.g. system logs, MAC, IP, or web browsing history) is  also stored. **This information is avalible on this web [[Download Database](http://)].**
 
 The following table shows the sensors and the information captured:
