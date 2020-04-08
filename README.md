@@ -39,11 +39,15 @@ agnostic_face_embedding = profiles_feat[i,34:]
 
 You can also download the results for each of the Scenarios presented in [3], which are defined as follows:
 
-   -**Scenario 1** was trained with the candidates competencies, the demographic attributes and the Unbiased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
-   -**Scenario 2** was trained with the candidates competencies, the demographic attributes and the Gender/Ethinicty Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
-   -**Scenario 3** was trained with the candidates competencies and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
-   -**Scenario 4** was trained with the candidates competencies, the face embeddings and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
-   -**Scenario 4 (Agnostic)** was trained with the candidates competencies, the agnostic face embeddings and the Gender/Ethnicity Biased Scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   - **Scenario 1** was trained with the candidates competencies, the demographic attributes and the Unbiased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   
+   - **Scenario 2** was trained with the candidates competencies, the demographic attributes and the Gender/Ethinicty Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   
+   - **Scenario 3** was trained with the candidates competencies and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   
+   - **Scenario 4** was trained with the candidates competencies, the face embeddings and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   
+   - **Scenario 4 (Agnostic)** was trained with the candidates competencies, the agnostic face embeddings and the Gender/Ethnicity Biased Scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
   
 The following example illustrates how to load the results in python:
 
