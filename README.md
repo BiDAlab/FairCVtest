@@ -9,7 +9,13 @@ We use the pretrained model ResNet-50 [2] to extract feature embeddings from the
 # Dataset
 
 This framework present the gender and ethinicty cases as two separate but analogous experiments, maintaining a similar structure in both cases. Of the 24,000 synthetic profiles generated for each experiment, we retain the 80% (i.e. 19,200 CVs) as training set, and leave the remaining 20% (i.e. 4,800) as validation set. Both splits are equally distributed among the demographic attribute of the experiment. You can donwload the gender profiles here [[Training set](http://)] [[Validation set](http://)], and the ethinicty ones here [[Training set](http://)] [[Validation set](http://)]. The following example illustrates how to load the information in python:
-'''
+'''python
+
+dict_profiles = np.load(profiles_data_path,allow_pickle = True).item()
+feat_profiles = dict_profiles['profiles']
+biased_labels = dict_profiles['biasedLabels']
+blind_labels = dict_profiles['blindLabels']
+image_list = dict_profiles['image_list']
 
 '''
 
