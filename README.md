@@ -11,14 +11,31 @@ We use the pretrained model ResNet-50 [2] to extract feature embeddings from the
 This framework present the gender and ethinicty cases as two separate but analogous experiments, maintaining a similar structure in both cases. Of the 24,000 synthetic profiles generated for each experiment, we retain the 80% (i.e. 19,200 CVs) as training set, and leave the remaining 20% (i.e. 4,800) as validation set. Both splits are equally distributed among the demographic attribute of the experiment. You can donwload the gender profiles here [[Training set](http://)] [[Validation set](http://)], and the ethinicty ones here [[Training set](http://)] [[Validation set](http://)]. The following example illustrates how to load the information in python:
 ```python
 
-dict_profiles = np.load(profiles_data_path,allow_pickle = True).item()
-feat_profiles = dict_profiles['profiles']
+import numpy as np
+
+dict_profiles = np.load(profiles_path, allow_pickle = True).item()
+profiles_feat = dict_profiles['profiles']
 biased_labels = dict_profiles['biasedLabels']
 blind_labels = dict_profiles['blindLabels']
 image_list = dict_profiles['image_list']
 
 ```
 
+The **profiles_feat** variable is a numpy array, where each row stores a different resume. You can access each of the i-th profile's attributes as follows:
+
+```python
+
+ethnicity = profiles_feat[i,0]
+gender = profiles_feat[i,1]
+educ_attainment = profiles_feat[i,2]
+prev_experience = profiles_feat[i,3]
+recommendation = profiles_feat[i,4]
+availability = profiles_feat[i,5]
+language_prof = profiles_feat[i,6:14]
+face_embedding = profiles_feat[i,14:34]
+agnostic_face_embedding = profiles_feat[i,34:]
+
+```
 We present a platform for student monitoring in remote education consisting of a collection of sensors and software that capture biometric and behavioral data. We define a collection of tasks to acquire behavioral data that can be useful for facing the existing challenges in automatic student monitoring during remote evaluation. Additionally, we release an initial database including data from 20 different users completing these tasks with a set of **basic sensors:** webcam, microphone, mouse, and keyboard; and also from more **advanced sensors:** NIR camera, smartwatch, additional RGB cameras, and an EEG band. Information from the computer (e.g. system logs, MAC, IP, or web browsing history) is  also stored. **This information is avalible on this web [[Download Database](http://)].**
 
 The following table shows the sensors and the information captured:
