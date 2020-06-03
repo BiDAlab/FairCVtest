@@ -75,11 +75,10 @@ THIS DATASET IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND A
 
 # References
 
-[1] A.   Morales,   J.   Fierrez,   and   R.   Vera-Rodriguez, “Sensitivenets: Learning   agnostic   representations with  application  to  face  recognition,” arXiv,   vol. abs/1902.00334, 2019.
+[1] A. Peña, I. Serna, A.   Morales, and   J.   Fierrez, “Understanding Biases in Multimodal AI: Case Study in Automated Recruitment,” Proc. of IEEE CVPR Workshop on Fair, Data Efficient and Trusted Computer Vision, Washington, Seattle, USA, 2020.
 
-[2] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for image recognition,” in IEEE Conference on  Computer  Vision  and  Pattern  Recognition,  June 2016, pp. 770–778
+[2] A.   Morales,   J.   Fierrez,   and   R.   Vera-Rodriguez, “Sensitivenets: Learning   Agnostic Representations with  Application  to  Face Recognition,” arXiv:abs/1902.00334, 2019.
 
-[3] A. Peña, I. Serna, A.   Morales, and   J.   Fierrez, “Understanding Biases in Multimodal AI: Case Study in Automated Recruitment,” in BOOKTITLE, DATE.
 
 # Contact:
 
