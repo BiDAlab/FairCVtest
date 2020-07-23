@@ -37,13 +37,13 @@ The **profiles_feat** variable is a numpy array, where each row stores a differe
 
 ```python
 
-ethnicity = profiles_feat[i,0]
-gender = profiles_feat[i,1]
-educ_attainment = profiles_feat[i,2]
-prev_experience = profiles_feat[i,3]
-recommendation = profiles_feat[i,4]
-availability = profiles_feat[i,5]
-language_prof = profiles_feat[i,6:14]
+ethnicity = profiles_feat[i,0] # 0 = G1, 1 = G2, 3 = G3
+gender = profiles_feat[i,1] # 0 = Male, 1 = Female
+educ_attainment = profiles_feat[i,2] # Discrete variable [0 - 5]
+prev_experience = profiles_feat[i,3] # Continuous variable [0 - 4]
+recommendation = profiles_feat[i,4] # Binary variable
+availability = profiles_feat[i,5] # Discrete variable [1 - 5]
+language_prof = profiles_feat[i,6:14] # Discrete variables [0 - 3]
 face_embedding = profiles_feat[i,14:34]
 agnostic_face_embedding = profiles_feat[i,34:]
 
