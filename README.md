@@ -20,7 +20,7 @@ We use the pretrained model ResNet-50 to extract feature embeddings from the fac
 
 # FairCVtdb
 
-This framework present the gender and ethinicty cases as two separate but analogous experiments, maintaining a similar structure in both cases. Of the 24,000 synthetic profiles generated for each experiment, we retain the 80% (i. e. 19,200 CVs) as training set, and leave the remaining 20% (i. e. 4,800 CVs) as validation set. Both splits are equally distributed among the demographic attribute of the experiment. You can donwload the **gender profiles** here [[Training set](https://github.com/BiDAlab/FairCVtest/blob/master/data/Profiles_train.npy)] [[Validation set](http://)], and the **ethnicity profiles** here [[Training set](http://)] [[Validation set](http://)]. The following example illustrates how to load the information in python:
+This framework present the gender and ethinicty cases as two separate but analogous experiments, maintaining a similar structure in both cases. Of the 24,000 synthetic profiles generated for each experiment, we retain the 80% (i. e. 19,200 CVs) as training set, and leave the remaining 20% (i. e. 4,800 CVs) as validation set. Both splits are equally distributed among the demographic attribute of the experiment. You can donwload the **gender profiles** here [[Training set](https://github.com/BiDAlab/FairCVtest/blob/master/data/Profiles_train.npy)] [[Validation set](https://github.com/BiDAlab/FairCVtest/blob/master/data/Profiles_test.npy)], and the **ethnicity profiles** here [[Training set](https://github.com/BiDAlab/FairCVtest/blob/master/data/Profiles_train_et.npy)] [[Validation set](https://github.com/BiDAlab/FairCVtest/blob/master/data/Profiles_test_et.npy)]. The following example illustrates how to load the information in python:
 ```python
 
 import numpy as np
@@ -51,15 +51,15 @@ agnostic_face_embedding = profiles_feat[i,34:]
 
 You can also download the results for each of the Scenarios presented in [3], which are defined as follows:
 
-   - **Scenario 1** was trained with the candidates competencies, the demographic attributes and the Unbiased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   - **Scenario 1** was trained with the candidates competencies, the demographic attributes and the Unbiased scores. You can download the results here [[Gender results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_blind_feat_gender.npy)] [[Ethnicity results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_blind_feat_ethnicity.npy)].
    
-   - **Scenario 2** was trained with the candidates competencies, the demographic attributes and the Gender/Ethinicty Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   - **Scenario 2** was trained with the candidates competencies, the demographic attributes and the Gender/Ethinicty Biased scores. You can download the results here [[Gender results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_feat_gender.npy)] [[Ethnicity results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_feat_ethnicity.npy)].
    
-   - **Scenario 3** was trained with the candidates competencies and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   - **Scenario 3** was trained with the candidates competencies and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_gender.npy)] [[Ethnicity results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_ethnicity.npy)].
    
-   - **Scenario 4** was trained with the candidates competencies, the face embeddings and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   - **Scenario 4** was trained with the candidates competencies, the face embeddings and the Gender/Ethnicity Biased scores. You can download the results here [[Gender results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_facial_gender.npy)] [[Ethnicity results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_facial_ethnicity.npy)].
    
-   - **Scenario 4 (Agnostic)** was trained with the candidates competencies, the agnostic face embeddings and the Gender/Ethnicity Biased Scores. You can download the results here [[Gender results](http://)] [[Ethnicity results](http://)].
+   - **Scenario 4 (Agnostic)** was trained with the candidates competencies, the agnostic face embeddings and the Gender/Ethnicity Biased Scores. You can download the results here [[Gender results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_facial_ag_gender.npy)] [[Ethnicity results](https://github.com/BiDAlab/FairCVtest/blob/master/data/predictions_biased_facial_ag_ethnicity.npy)].
   
 The following example illustrates how to load the results in python:
 
