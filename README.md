@@ -86,7 +86,7 @@ For further information on the benchmark and on different applications where it 
 
 [1] A. Peña, I. Serna, A.   Morales, and   J.   Fierrez, “Understanding Biases in Multimodal AI: Case Study in Automated Recruitment,” Proc. of IEEE CVPR Workshop on Fair, Data Efficient and Trusted Computer Vision, Washington, Seattle, USA, 2020.
 
-[2] A.   Morales,   J.   Fierrez,   and   R.   Vera-Rodriguez, “Sensitivenets: Learning   Agnostic Representations with  Application  to  Face Recognition,” arXiv:1902.00334, 2019.
+[2] A.   Morales,   J.   Fierrez,   R.   Vera-Rodriguez, and R. Tolosana, “Sensitivenets: Learning   Agnostic Representations with  Application  to  Face Images,” IEEE Transactions on Pattern Analysis and Machine Intelligence, 2020.
 
 Please remember to reference articles [1,2] on any work made public, whatever the form, based directly or indirectly on any part of the FairCVtest benchmark.
 
