@@ -83,7 +83,7 @@ For further information on the benchmark and on different applications where it 
 
 [3] M. De-Arteaga, R. Romanov, H. Wallach, J. Chayes, et al., “Bias in Bios: A Case Study of Semantic Representation Bias in a High-Stakes Setting”, in Proceedings of the ACM Conference on Fairness, Accountability, and Transparency (FAccT), page 120-128, New York, NY, USA, 2019. 
 
-Please remember to reference articles [1,2] on any work made public, whatever the form, based directly or indirectly on any part of the FairCVtest benchmark.
+Please remember to reference these articles on any work made public, whatever the form, based directly or indirectly on any part of the FairCVtest benchmark.
 
 
 # Contact:
