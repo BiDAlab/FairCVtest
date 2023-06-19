@@ -12,14 +12,14 @@ Each resume is scored using a linear combination of the candidates competencies 
 
 We use the pretrained model ResNet-50 to extract feature embeddings from the face photograps. ResNet-50’s last convolutional layer outputs embeddings with 2048 features, so we added a fully connected layer to perform a bottleneck that compresses these embeddings to just 20 features (maintaining competitive face  recognition  performances). Despite being trained exclusively for the task of face recognition, the embeddings extracted by ResNet-50 contain enough information to infer gender and ethinicity, as this information is part of the face attributes. For this reason, we also extract feature embeddings applying to the pretrained model the method proposed in [2] to remove sensitive information, and so obtaining gender/ethnicity agnostic feature embeddings. Regarding the short biographies, a gender-blinded version where explicit gender indicators were removed is included in the bios.
 
-![](https://github.com/BiDAlab/FairCVtest/blob/master/Figures/figure_learning_network.pdf)
+![](https://github.com/BiDAlab/FairCVtest/blob/master/data/Figures/figure_learning_network.png)
 **Figure 2. Multimodal learning architecture composed by a Convolutional Neural Network (ResNet-50), an LSTM-based network, and a fully connected network used to fuse the features from different domains (image, text and structured data).  Note that some features are included or removed from the learning architecture depending of the scenario under evaluation.**
 
-The code to replicate our experiments is available [[here](https://github.com/BiDAlab/FairCVtest/blob/master/FairCV.py)]. The code uses common data science libraries (numpy, sklearn, tensorflow, matplotlib and seaborn). Note that we used the [[fast-text word embedding](https://fasttext.cc/docs/en/english-vectors.html)] in our experiments.
+The code to replicate our experiments is available [here](https://github.com/BiDAlab/FairCVtest/blob/master/FairCV.py). The code uses common data science libraries (numpy, sklearn, tensorflow, matplotlib and seaborn). Note that we used the [fast-text word embedding](https://fasttext.cc/docs/en/english-vectors.html) in our experiments.
 
 # FairCVdb
 
-This framework present the gender and ethnicity cases as two separate but analogous experiments, maintaining a similar structure in both cases. Of the 24,000 synthetic profiles generated for each experiment, we retain the 80% (i. e. 19,200 CVs) as training set, and leave the remaining 20% (i. e. 4,800 CVs) as validation set. Both splits are equally distributed among the demographic attribute of the experiment. You can donwload the **FairCVdb** [[here](https://github.com/BiDAlab/FairCVtest/blob/master/data/Profiles_train_et.npy)]. The following example illustrates how to load the information in python:
+This framework present the gender and ethnicity cases as two separate but analogous experiments, maintaining a similar structure in both cases. Of the 24,000 synthetic profiles generated for each experiment, we retain the 80% (i. e. 19,200 CVs) as training set, and leave the remaining 20% (i. e. 4,800 CVs) as validation set. Both splits are equally distributed among the demographic attribute of the experiment. You can donwload the **FairCVdb** [here](https://github.com/BiDAlab/FairCVtest/blob/master/data/FairCVdb.npy). The following example illustrates how to load the information in python:
 ```python
 
 import numpy as np
