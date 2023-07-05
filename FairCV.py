@@ -11,10 +11,11 @@ import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import tensorflow.keras as keras
-from tensorflow.keras.layers import Input, Concatenate, Dense, Embedding, LSTM, Bidirectional, Dropout, Flatten
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+# import tensorflow.keras as keras
+import generateDatabase as gd
+# from tensorflow.keras.layers import Input, Concatenate, Dense, Embedding, LSTM, Bidirectional, Dropout, Flatten
+# from tensorflow.keras.preprocessing.text import Tokenizer
+# from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn import svm, preprocessing
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
@@ -24,7 +25,7 @@ MAX_WORDS = 20000
 NUM_EPOCHS = 16
 NUM_EPOCHS_DEMO = 100
 BATCH_SIZE = 128
-NUM_OCC = 12
+NUM_OCC = 10
 
 #Load the FairCV dataset based on the experiment configuration
 def loadDataset(data_path, database_file, config = 'neutral'):
@@ -661,7 +662,243 @@ def analyzeResults(data_path, database_file, config = 'neutral'):
                                   labels_test[:,0], 'neutral gender')
         testEqualityOfOpportunity(scores, ethnicity_labels, labels_train[:,0],
                                   labels_test[:,0], 'neutral ethnicity')
- 
+    
+def analyzeDatabase(data_path, database_file, bios_file):
+    
+    labels_train, _, profiles_train, profiles_test, _, _ = loadDataset(data_path, database_file, config = 'evaluation')
+    
+    ethnicity_labels_train = profiles_train[:,0]
+    gender_labels_train = profiles_train[:,1]
+    occupation_labels_train = profiles_train[:,2]
+    suitability_labels = profiles_train[:,3]
+    
+    ethnicity_labels_test = profiles_test[:,0]
+    gender_labels_test = profiles_test[:,1]
+    occupation_labels_test = profiles_test[:,2]
+    
+    _,_,_,_,_, labels_dict = gd.loadBios(data_path, bios_file)
+    labels_text = list(labels_dict.values())
+    
+    ######### Gender ###########
+    
+    num_females = sum(gender_labels_train)/gender_labels_train.shape[0] * 100
+    num_males = 100 - num_females
+    
+    print('Percentage of males in training set = {:.2f}%'.format(num_males))
+    print('Percentage of females in training set = {:.2f}% \n'.format(num_females))
+    
+    num_females_test = sum(gender_labels_test)/gender_labels_test.shape[0] * 100
+    num_males_test = 100 - num_females_test
+    
+    print('Percentage of males in test set = {:.2f}%'.format(num_males_test))
+    print('Percentage of females in test set = {:.2f}% \n'.format(num_females_test))
+    
+    male = (gender_labels_train == 0)
+    female = (gender_labels_train == 1)
+    
+    # Blind labels
+    KL = computeKL(labels_train[male, 0], labels_train[female, 0])
+    
+    save_file = 'Blind Labels Distribution by Gender (Training).png'
+    
+    plt.figure(figsize = (7.3, 5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+    
+    plt.title('Blind Labels Distribution by Gender, KL(P||Q) = {:.3f}'.format(KL))
+    sns.distplot(labels_train[male, 0], hist = False, kde_kws = {'shade' : True}, color = 'r', label = 'Male')
+    sns.distplot(labels_train[female, 0], hist = False, kde_kws = {'shade' : True}, color = 'c', label = 'Female')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    # Biased labels
+    KL = computeKL(labels_train[male, 1], labels_train[female, 1])
+    
+    save_file = 'Biased Labels Distribution by Gender (Training).png'
+    
+    plt.figure(figsize = (7.3, 5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+    
+    plt.title('Biased Labels Distribution by Gender, KL(P||Q) = {:.3f}'.format(KL))
+    sns.distplot(labels_train[male, 1], hist = False, kde_kws = {'shade' : True}, color = 'r', label = 'Male')
+    sns.distplot(labels_train[female, 1], hist = False, kde_kws = {'shade' : True}, color = 'c', label = 'Female')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    ######### Ethnicity  ###########
+    num_g2 = sum(ethnicity_labels_train % 2)/ethnicity_labels_train.shape[0] * 100
+    num_g3 = sum(ethnicity_labels_train // 2)/ethnicity_labels_train.shape[0] * 100
+    num_g1 = 100 - num_g2 - num_g3
+    
+    print('Percentage of G1 in training set = {:.2f}%'.format(num_g1))
+    print('Percentage of G2 in training set = {:.2f}%'.format(num_g2))
+    print('Percentage of G3 in training set = {:.2f}%\n'.format(num_g3))
+    
+    num_g2_test = sum(ethnicity_labels_test % 2)/ethnicity_labels_test.shape[0] * 100
+    num_g3_test = sum(ethnicity_labels_test // 2)/ethnicity_labels_test.shape[0] * 100
+    num_g1_test = 100 - num_g2_test - num_g3_test
+    
+    print('Percentage of G1 in test set = {:.2f}%'.format(num_g1_test))
+    print('Percentage of G2 in test set = {:.2f}%'.format(num_g2_test))
+    print('Percentage of G3 in test set = {:.2f}%\n'.format(num_g3_test))
+    
+    E1 = (ethnicity_labels_train == 0)
+    E2 = (ethnicity_labels_train == 1)
+    E3 = (ethnicity_labels_train == 2)
+    
+    # Blind labels
+    KL1 = computeKL(labels_train[E1, 0], labels_train[E2, 0])
+    KL2 = computeKL(labels_train[E1, 0], labels_train[E3, 0])
+    KL3 = computeKL(labels_train[E2, 0], labels_train[E3, 0])
+    KL = (KL1 + KL2 + KL3)/3
+    
+    save_file = 'Blind Labels Distribution by Ethnicity (Training).png'
+    
+    plt.figure(figsize = (7.3, 5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+    
+    plt.title('Blind Labels Distribution by Ethnicity, KL(P||Q) = {:.3f}'.format(KL))
+    sns.distplot(labels_train[E1, 0], hist = False, kde_kws = {'shade' : True}, color = 'y', label = 'Group 1')
+    sns.distplot(labels_train[E2, 0], hist = False, kde_kws = {'shade' : True}, color = 'g', label = 'Group 2')
+    sns.distplot(labels_train[E3, 0], hist = False, kde_kws = {'shade' : True}, color = 'b', label = 'Group 3')
+    plt.legend(loc='upper right')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    # Biased labels
+    KL1 = computeKL(labels_train[E1, 2], labels_train[E2, 2])
+    KL2 = computeKL(labels_train[E1, 2], labels_train[E3, 2])
+    KL3 = computeKL(labels_train[E2, 2], labels_train[E3, 2])
+    KL = (KL1 + KL2 + KL3)/3
+    
+    save_file = 'Biased Labels Distribution by Ethnicity (Training).png'
+    
+    plt.figure(figsize = (7.3, 5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+    
+    plt.title('Biased Labels Distribution by Ethnicity, KL(P||Q) = {:.3f}'.format(KL))
+    sns.distplot(labels_train[E1, 2], hist = False, kde_kws = {'shade' : True}, color = 'y', label = 'Group 1')
+    sns.distplot(labels_train[E2, 2], hist = False, kde_kws = {'shade' : True}, color = 'g', label = 'Group 2')
+    sns.distplot(labels_train[E3, 2], hist = False, kde_kws = {'shade' : True}, color = 'b', label = 'Group 3')
+    plt.legend(loc='upper right')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    ######## Occupation ###########
+    
+    # occupation distribution train
+    save_file = 'Occupation Distribution (Training).png'
+    
+    plt.figure(figsize = (7.3, 5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+    
+    plt.title('Occupation Distribution in Training Set')
+    sns.set(color_codes = True)
+    g = sns.distplot(occupation_labels_train, kde = False, hist_kws = {'rwidth':1}, rug = True, bins = NUM_OCC)
+    g.set_xticks(range(NUM_OCC))
+    g.set_xticklabels(labels_text, rotation = 'vertical')
+    plt.xlabel('Occupation')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    # occupation distribution test
+    save_file = 'Occupation Distribution (Test).png'
+    
+    plt.figure(figsize = (7.3, 5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+    
+    plt.title('Occupation Distribution in Test Set')
+    sns.set(color_codes = True)
+    g = sns.distplot(occupation_labels_test, kde = False, hist_kws = {'rwidth':1}, rug = True, bins = NUM_OCC)
+    g.set_xticks(range(NUM_OCC))
+    g.set_xticklabels(labels_text, rotation = 'vertical')
+    plt.xlabel('Occupation')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    O1 = (suitability_labels == 0.25)
+    O2 = (suitability_labels == 0.5)
+    O3 = (suitability_labels == 0.75)
+    O4 = (suitability_labels == 1)
+    
+    # blind labels
+    save_file = 'Blind Labels Distribution by Occupation (Training).png'
+    
+    plt.figure(figsize = (7.3,5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+
+    plt.title('Blind Labels by Occupation Group')
+    sns.distplot(labels_train[O1, 0], hist = False, kde_kws = {'shade' : True}, color = 'r', label = 'AV') 
+    sns.distplot(labels_train[O2, 0], hist = False, kde_kws = {'shade' : True}, color = 'g', label = 'JA')
+    sns.distplot(labels_train[O3, 0], hist = False, kde_kws = {'shade' : True}, color = 'b', label = 'HC')
+    sns.distplot(labels_train[O4, 0], hist = False, kde_kws = {'shade' : True}, color = 'y', label = 'EN')
+    plt.legend(loc='upper right')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    # gender biased labels
+    save_file = 'Gender Biased Labels Distribution by Occupation (Training).png'
+    
+    plt.figure(figsize = (7.3,5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+
+    plt.title('Gender Biased Labels by Occupation Group')
+    sns.distplot(labels_train[O1, 1], hist = False, kde_kws = {'shade' : True}, color = 'r', label = 'AV') 
+    sns.distplot(labels_train[O2, 1], hist = False, kde_kws = {'shade' : True}, color = 'g', label = 'JA')
+    sns.distplot(labels_train[O3, 1], hist = False, kde_kws = {'shade' : True}, color = 'b', label = 'HC')
+    sns.distplot(labels_train[O4, 1], hist = False, kde_kws = {'shade' : True}, color = 'y', label = 'EN')
+    plt.legend(loc='upper right')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
+    # ethnicity biased labels
+    save_file = 'Ethnicity Biased Labels Distribution by Occupation (Training).png'
+    
+    plt.figure(figsize = (7.3,5.2))
+    ax = plt.axes()
+    ax.set_facecolor('white')
+
+    plt.title('Ethnicity Biased Labels by Occupation Group')
+    sns.distplot(labels_train[O1, 2], hist = False, kde_kws = {'shade' : True}, color = 'r', label = 'AV') 
+    sns.distplot(labels_train[O2, 2], hist = False, kde_kws = {'shade' : True}, color = 'g', label = 'JA')
+    sns.distplot(labels_train[O3, 2], hist = False, kde_kws = {'shade' : True}, color = 'b', label = 'HC')
+    sns.distplot(labels_train[O4, 2], hist = False, kde_kws = {'shade' : True}, color = 'y', label = 'EN')
+    plt.legend(loc='upper right')
+    plt.xlabel('Score')
+    plt.ylabel('Frequency')
+    plt.grid(True,  linestyle=':',color = 'lightgrey')
+    plt.savefig(os.path.join(data_path, save_file), dpi = 1000)
+    plt.show()
+    
     
 # FairCV main function
 def fairCVtest(data_path, database_file, word_emb_file, config = 'neutral'):
@@ -680,11 +917,11 @@ def fairCVtest(data_path, database_file, word_emb_file, config = 'neutral'):
     scores = evaluateHiringTool(model, profiles_test, bios_test, labels_test)
     
     saveResults(data_path, config, model, t, history, scores, max_len)
+
     analyzeResults(data_path, database_file, config)
 
-
 if __name__ == '__main__':
-    
+
     os.chdir('data')
     database_file = 'FairCVdb.npy'
     word_emb_file = 'crawl-300d-2M.vec'
@@ -692,6 +929,7 @@ if __name__ == '__main__':
     
     fairCVtest(data_path, database_file, word_emb_file, config)
     evaluateDemographics(data_path, database_file, config)
+
 
 
 
