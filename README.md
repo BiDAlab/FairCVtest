@@ -52,7 +52,7 @@ The **profiles** variable is a numpy array, where each row stores a different re
 
 ethnicity = profiles_train[i,0] # 0 = G1, 1 = G2, 3 = G3
 gender = profiles_train[i,1] # 0 = Male, 1 = Female
-occupation = profiles_train[i,2] # Discrete variable [0-11]
+occupation = profiles_train[i,2] # Discrete variable [0-9]
 suitability = profiles_train[i,3] # Discrete variable [0.25, 0.5, 0.75, 1]
 educ_attainment = profiles_train[i,4] # Discrete variable [0.2, 0.4, 0.6, 0.8, 1]
 prev_experience = profiles_train[i,5] # Discrete variable [0, 0.2, 0.4, 0.6, 0.8, 1]
@@ -63,7 +63,7 @@ face_embedding = profiles_train[i,11:31] # 20-dimensional embedding, norm 1
 blind_face_embedding = profiles_train[i,31:] # 20-dimensional embedding, norm 1
 
 ```
-
+The occupation attribute has the following correspondence: **nurse** (0); **surgeon** (1); **physician** (2); **journalist** (3); **photographer** (4); **filmmaker** (5); **teacher** (6); **professor** (7); **attorney** (8); and **accountant** (9).
 
 
 # License
